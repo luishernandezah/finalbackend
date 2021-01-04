@@ -1,0 +1,229 @@
+DELIMITER $$
+	CREATE TRIGGER trigges_usuario AFTER INSERT usuario FOR  EACH ROW
+		BEGIN
+			DECLARE nombrev varchar(200);
+            DECLARE cedula int(11);
+            SELECT cc INTO cc FROM usuario WHERE cc = new.cc;
+            SELECT name INTO nombrev FROM usuario WHERE cc = new.cc;
+            IF v_cant_articulos > 0 THEN
+            	INSERT INTO usertriggers(id,cc,nombre,edad,nombreregisto) VALUES (new.id, new.cc, new.nombre,new.edad,new.nombrev)
+            END IF;
+		end$$;
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER trigges_usuario AFTER INSERT ON usuario FOR EACH ROW
+	BEGIN
+    DECLARE nombrev varchar(200);
+    DECLARE cedulav int(11);
+    SELECT cc INTO cedulav FROM usuario WHERE cc = NEW.rcc;
+    SELECT name INTO nombrev FROM usuario WHERE cc = NEW.rcc;
+    IF cedulav > 0 THEN
+    	INSERT INTO usertriggers(id,cc,nombre,edad,nombreregisto) VALUES (NEW.id, NEW.cc, 				NEW.name,NEW.edad,nombrev);
+    END$$
+DELIMITER ;
+
+
+CREATE TRIGGER trigges_usuario AFTER INSERT ON usuario
+ FOR EACH ROW BEGIN
+  DECLARE nombrev varchar(200);
+   DECLARE cedulav int(11);
+    SELECT cc INTO cedulav FROM usuario WHERE cc = NEW.rcc;
+     SELECT name INTO nombrev FROM usuario WHERE cc = NEW.rcc;
+      INSERT INTO usertriggers(id,cc,nombre,edad,nombreregisto) VALUES (NEW.id, NEW.cc, NEW.name,NEW.edad,nombrev); END
+
+CREATE TRIGGER trigges_usuario AFTER INSERT ON usuario FOR EACH ROW
+BEGIN
+ DECLARE nombrev varchar(200);
+ DECLARE cedulav int(11);
+ SELECT name INTO nombrev FROM usuario WHERE cc = NEW.rcc;
+  SELECT cc INTO cedulav FROM usuario WHERE cc = NEW.rcc;
+   IF cedulav > 0 THEN
+   INSERT INTO usertriggers(id,cc,nombre,edad,nombreregisto) VALUES (NEW.id, NEW.cc, NEW.name,NEW.edad,nombrev);
+    END IF;
+    END
+
+
+           CREATE TRIGGER user_regAI AFTER INSERT ON users FOR EACH ROW
+            BEGIN
+            DECLARE rcc int(11);
+            DECLARE Nombreg varchar(200);
+            DECLARE Apellidog varchar(200);
+            SELECT cedula INTO rcc FROM users WHERE cedula = NEW.cedularegistro;
+            SELECT name INTO Nombreg FROM users WHERE cedula = NEW.cedularegistro;
+            SELECT surname INTO Apellidog FROM users WHERE cedula = NEW.cedularegistro;
+            IF rcc > 0 THEN
+            INSERT INTO usertriggersi(name,surname,email,cedula,phone,direccion,Valorpagar,fechaPagor,fechaVecimiento,nombrecreo,apellidocreo,cedulacreo,fecharegistro) VALUES (NEW.name,NEW.surname,NEW.email,NEW.cedula,NEW.phone,NEW.direccion,NEW.Valorpagar,NEW.fechaPagor,NEW.fechaVecimiento,Nombreg,Apellidog,NEW.cedularegistro,now());
+            END IF;
+
+            end
+
+
+            SELECT tsr.user_id , tsr.useremp_id , us.cedula, us.name, us.surname FROM userrelacion as tsr INNER JOIN users as us on tsr.useremp_id = us.id WHERE tsr.user_id = 3
+
+
+
+                public function loca(){
+        /*
+          //  return response()->json([$descuent,$nuevoresta,$request->abono ]);
+                    try {
+                $valor  = $this->valorapaga($request->emprestar,$request->porcentaje );
+                //  return  response()->json([ $valor]);
+                $descuent = null;
+                $fechadiapago=null;
+                if($request->abono>=500){
+                    $descuent = $this->abono($valor,$request->abono);
+                }else{
+                    $descuent = $valor ;
+                }
+                if( $request->cadatiempo == 543210){
+
+                    $fecha = new Carbon($request->fechadepagor);
+                    $fechadiapago =   $this->fechado($fecha);
+
+                }else{
+                    if ($request->otrafecha == 1) {
+                        $fecha = new Carbon($request->fechadepagor);
+                        $fechadiapago = $this->otrafecha($fecha, $request->cadatiempo);
+                    } else {
+                        $fechadiapago = $this->fecharpagor($request->fechadepagor, $request->cadatiempo);
+                    }
+                }
+                 // $this->insertvalida($request);
+                     //  $dateAdded = date('Y-m-d', strtotime($request->Fechaplazodepagon));
+
+       /* $valida = DB::table('prestamos')->select("id")
+        ->where("cliente_id",$request->clientid)
+        ->where("user_id",$users)->get();
+
+        if (count($valida)>0 ) {
+            $message = "ya ester usuario lo tiene en la base de dato";
+            return response()->json($message);
+        }
+          //  return  response()->json([ $valor]);
+          // $this->insertvalida($request);
+        */
+             //  $dateAdded = date('Y-m-d', strtotime($request->Fechaplazodepagon));
+
+       /* $valida = DB::table('prestamos')->select("id")
+        ->where("cliente_id",$request->clientid)
+        ->where("user_id",$users)->get();
+
+        if (count($valida)>0 ) {
+            $message = "ya ester usuario lo tiene en la base de dato";
+            return response()->json($message);
+        }*/
+          //   return response()->json([$id,$request->emprestar]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ return Auth::guard('users')->check();
+    $agent = new Agent();
+  echo  $agent->platform();
+    // Ubuntu, Windows, OS X, ...
+    echo   $agent->browser();
+    // Chrome, IE, Safari, Firefox, ...
+    echo   $browser = $agent->browser();
+    echo    $version = $agent->version($browser);
+    echo    $platform = $agent->platform();
+    echo    $version = $agent->version($platform);
+
+    /*
+   echo  $agent->platform()."<br>";
+    // Ubuntu, Windows, OS X, ...
+    echo  $agent->browser()."<br>";
+    // Chrome, IE, Safari, Firefox, ...
+
+    echo    $agent->version( $agent->browser())."<br>";
+  //  echo   $platform = $agent->platform();
+    echo   $version = $agent->version( $agent->platform())."<br>";
+*/
+//$user  = new User();
+// echo request()->ip();
+// echo request()->server('LOCAL_ADDR');
+ // echo "Sitema operativo  ".$user->getOS()." Navegado ".$user->getBrowser()." Informacion ". $user->plataforma();
+ // echo  $user->getBrowser();
+ // echo $user->plataforma()  ;
+ // echo strstr( $_SERVER[ 'HTTP_USER_AGENT' ], 'Windows' );
+  //echo strstr( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' );
+  /*$ipaddress = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if(isset($_SERVER['REMOTE_ADDR']))
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+    return $ipaddress;
+    $user  = new User();
+    $localIP = getHostByName(getHostName());
+
+//echo strstr( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' );
+  //  echo gethostname();getOSname
+   // return $user->get_browser_name($_SERVER['HTTP_USER_AGENT']);
+    return    strstr( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' );
+
+    //gethostbyname(gethostname()) ."  ". $user->getOS()." Sitema operactivo ".$user->getBrowser()." navegado ".  getHostByName(getHostName());   ;
+
+Route::get('/test', function () {
+*//*
+    $user =User::find(2);
+  //  Gate::allows('admin');
+    //$user->roles()->sync([2]);
+    //dd(Gate::allows('admin'));
+   // return $user ;
+   Gate::authorize('admin');
+   return $user ;
+    dd(Gate::allows('admin'));//return false
+    dd(Gate::denies('admin'));//return true
+   // return $user->permiso(["usersguardar","usersactualizar","clientelistar","clienteactualizar"]);
+//})*/
+
+    /**$roles =  Role::find(1);
+
+
+   $permiso=  $roles->permisos()->sync([1,2,3,4,5,6,7,8,9,10,11,12,13]);
+   $premis = Role::with("permisos")->get();
+   return  $premis;*/
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+ $consulta = DB::table('userrelacion')
+    ->join('users','users.id','=','userrelacion.useremp_id')
+    ->select('users.*','userrelacion.*')
+    ->where('userrelacion.user_id', 3)->get();
+
+   //s dd($user);
+    return $consulta;
+
+
+   // var_dump($user);
+ |
+
+*/
